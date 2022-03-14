@@ -1,3 +1,5 @@
+import { VOTE_CREATE } from '@/src/constants/gameboard'
+import socket from '@/src/lib/socket'
 import { Card, useBoardContext } from '@/src/providers'
 import { memo, useEffect, useState } from 'react'
 
@@ -7,7 +9,6 @@ interface CardListProps {}
 
 function BaseCardList (props: CardListProps) {
 	const context = useBoardContext()
-
 
 	const fibonacci: Card[] = [
 		{
@@ -60,9 +61,14 @@ function BaseCardList (props: CardListProps) {
 		context.setCurrentCard(prevState => prevState === value ? null : value)
 	}
 
+	const handleVote = (card: Card) => {
+		socket.emit(VOTE_CREATE, card)
+
+		toggleSelected(card)
+	}
 	const renderCards = fibonacci?.map((value, index) => (
 		<Styles.Card isSelected={value.value === context?.currentCard?.value} key={index}>
-			<Styles.Button onClick={() => toggleSelected(value)}>{value.label}</Styles.Button>
+			<Styles.Button onClick={() => handleVote(value)}>{value.label}</Styles.Button>
 		</Styles.Card>
 	))
   

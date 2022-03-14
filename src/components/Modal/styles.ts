@@ -46,13 +46,3 @@ export const Root = AlertDialogPrimitive.Root
 
 export const Portal = AlertDialogPrimitive.Portal
 
-export const Description = styled(AlertDialogPrimitive.Description, {
-	color: '$text'
-})
-
-export const Title = styled(AlertDialogPrimitive.Title, {
-	margin: 0,
-	color: '$title',
-	fontSize: '$md',
-	fontWeight: 500,
-})

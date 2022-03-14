@@ -16,8 +16,10 @@ interface ThemeProviderProps {
   children: ReactNode
 }
 
+const LOCAL_STORAGE_KEY = import.meta.env.LOCAL_STORAGE_KEY
+export const THEME_KEY = LOCAL_STORAGE_KEY ? `${LOCAL_STORAGE_KEY}:theme` : '@planningPoker:theme'
+
 export function ThemeProvider ({ children }: ThemeProviderProps) {
-	const THEME_KEY = '@planningPoker:theme'
 
 	const mapTheme = useMemo(() => ({
 		[DARK_THEME]: darkTheme,
@@ -28,7 +30,7 @@ export function ThemeProvider ({ children }: ThemeProviderProps) {
 
 	const savedTheme = 
     localStorage.getItem(THEME_KEY) 
-    || (!isDarkThemePreferences ? DARK_THEME : LIGHT_THEME)
+    || (isDarkThemePreferences ? DARK_THEME : LIGHT_THEME)
 
 	const [currentTheme, setCurrentTheme] = useState(savedTheme)
 	const [theme, setTheme] = useState(mapTheme[currentTheme as keyof typeof mapTheme])

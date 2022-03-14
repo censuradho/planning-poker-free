@@ -1,5 +1,5 @@
-import useBooleanToggle from '@/src/hooks/useBooleanToggle';
-import { Flex } from '@/src/styles';
+import { useBooleanToggle } from '@/src/hooks'
+import { Flex } from '@/src/styles'
 import { ComponentProps, forwardRef, memo, useImperativeHandle, useState } from 'react'
 import { Icon } from '../..'
 
@@ -19,24 +19,24 @@ interface Ref {
 }
 
 const BaseCheckbox = forwardRef<Ref, CheckboxProps>(({ label, onChange, ...props}, ref) => {
-  const [checked, toggleChecked] = useBooleanToggle(props?.defaultChecked || false)
+	const [checked, toggleChecked] = useBooleanToggle(props?.defaultChecked || false)
 
-  useImperativeHandle(ref, () => ({ checked }));
+	useImperativeHandle(ref, () => ({ checked }))
 
-  const handleChange = () => {
-    toggleChecked()
-    onChange?.(!checked)
-  }
+	const handleChange = () => {
+		toggleChecked()
+		onChange?.(!checked)
+	}
 
-  return (
-      <Flex gap="sm" alignItems="center">
-        <Styles.Checkbox checked={checked} onCheckedChange={handleChange} {...props}>
-          <Styles.Indicator />
-          {checked && <Icon name="done" />}
-        </Styles.Checkbox>
-        {label && <Styles.Label htmlFor={props?.id}>{label}</Styles.Label>}
-      </Flex>  
-    )
+	return (
+		<Flex gap="sm" alignItems="center">
+			<Styles.Checkbox checked={checked} onCheckedChange={handleChange} {...props}>
+				<Styles.Indicator />
+				{checked && <Icon name="done" />}
+			</Styles.Checkbox>
+			{label && <Styles.Label htmlFor={props?.id}>{label}</Styles.Label>}
+		</Flex>  
+	)
 })
 
 export const Checkbox = memo(BaseCheckbox)
