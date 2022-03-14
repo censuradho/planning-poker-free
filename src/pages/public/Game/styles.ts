@@ -18,3 +18,7 @@ export const CardBoardTitle = styled('span', {
 })
 
 
+export const Count = styled('strong', {
+	fontSize: '$md',
+	color: '$primary'
+})

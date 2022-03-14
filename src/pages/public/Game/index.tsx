@@ -1,5 +1,6 @@
 import * as Styles from './styles'
 
+import { Button } from '@/src/components'
 import { CardList, CardReval } from './components'
 
 import { Flex } from '@/src/styles'
@@ -12,7 +13,10 @@ function BaseGame () {
 
 	return (
 		<Styles.Main>
-			<Flex flex={1} fullWidth justifyContent="center" alignItems="center">
+			<Flex flexDirection="column" gap="lg" flex={1} fullWidth justifyContent="center" alignItems="center">
+				{!context.isCount && !context.isReval &&  <Button onClick={context.revalCards}>Revelar</Button>}
+				{context.isCount && !context.isReval && <Styles.Count>{context.countDown}</Styles.Count>}
+				{context.countDown === 0 && <Button variant="base" onClick={context.restartVoting}>Comear nova votação</Button>}
 				<CardReval label={context.currentCard?.label || ''} />
 			</Flex>	
 			<Flex fullWidth flexDirection="column" alignItems="center" justifyContent="center">

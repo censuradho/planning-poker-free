@@ -8,7 +8,6 @@ interface CardListProps {}
 function BaseCardList (props: CardListProps) {
 	const context = useBoardContext()
 
-	const [cardSelected, setCardSelected] = useState<Card | null>(null)
 
 	const fibonacci: Card[] = [
 		{
@@ -57,17 +56,12 @@ function BaseCardList (props: CardListProps) {
 		},
 	]
 
-  
 	const toggleSelected = (value: Card) => {
-		setCardSelected(prevState => prevState === value ? null : value)
+		context.setCurrentCard(prevState => prevState === value ? null : value)
 	}
 
-	useEffect(() => {
-		context.setCurrentCard(cardSelected)
-	}, [cardSelected])
-  
 	const renderCards = fibonacci?.map((value, index) => (
-		<Styles.Card isSelected={value.value === cardSelected?.value} key={index}>
+		<Styles.Card isSelected={value.value === context?.currentCard?.value} key={index}>
 			<Styles.Button onClick={() => toggleSelected(value)}>{value.label}</Styles.Button>
 		</Styles.Card>
 	))

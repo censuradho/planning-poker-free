@@ -11,7 +11,7 @@ function BaseCardReval ({ label }: CardRevalProps) {
 	const context = useBoardContext()
   
 	return (
-		<Styles.Card isReval={context?.isReval} onClick={context?.toggleIsReval}>
+		<Styles.Card isReval={context?.isReval}>
 			<Styles.InnerCard>
 				<Styles.Front></Styles.Front>
 				<Styles.Back>

@@ -1,5 +1,4 @@
-import useBooleanToggle from '@/src/hooks/useBooleanToggle'
-import { memo, ReactNode, useContext, createContext, useState } from 'react'
+import { memo, ReactNode, useContext, createContext, useState, useEffect, Dispatch } from 'react'
 
 
 interface BoardProviderProps {
@@ -12,10 +11,13 @@ export interface Card {
 }
 
 interface BoardContextProps {
-  setCurrentCard: (card: Card | null) => void;
+  setCurrentCard: Dispatch<React.SetStateAction<Card | null>>;
   currentCard: Card | null,
   isReval?: boolean,
-  toggleIsReval: () => void
+  revalCards: () => void
+  restartVoting: () => void
+  isCount?: boolean;
+  countDown: number
 }
 
 const BoardContext = createContext({} as BoardContextProps)
@@ -24,7 +26,38 @@ const BoardContext = createContext({} as BoardContextProps)
 function BaseBoardProvider ({ children }: BoardProviderProps) {
 	const [currentCard, setCurrentCard] = useState<Card | null>(null)
 
-	const [isReval, toggleIsReval] = useBooleanToggle()
+	const [isReval, setIsRevail] = useState(false)
+	const [isCount, setIsCount] = useState(false)
+
+	const [countDown, setCountDown] = useState(3)
+
+	const [idInterval, setIdInterval] = useState<NodeJS.Timer | null>(null)
+
+	const revalCards = () => {
+		setIsCount(true)
+		const idTimer = setInterval(() => {
+			setCountDown(prevState => prevState > 0 ? prevState - 1 : 0)
+
+			
+			if (countDown === 0) setIsRevail(true)
+		}, 1200)
+		setIdInterval(idTimer)
+	}
+
+	const restartVoting = () => {
+		setCountDown(3)
+		setIsRevail(false)
+		setIsCount(false)
+		setCurrentCard(null)
+	}
+
+	useEffect(() => {
+		if (countDown > 0) return
+		setIsRevail(true)
+		idInterval && clearInterval(idInterval)
+	}, [countDown])
+
+	console.log(currentCard)
 
 	return (
 		<BoardContext.Provider 
@@ -32,7 +65,10 @@ function BaseBoardProvider ({ children }: BoardProviderProps) {
 				setCurrentCard,
 				currentCard,
 				isReval,
-				toggleIsReval
+				revalCards,
+				isCount,
+				restartVoting,
+				countDown
 			}}>
 			{children}
 		</BoardContext.Provider>
