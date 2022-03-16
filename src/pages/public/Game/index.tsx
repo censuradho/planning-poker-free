@@ -14,7 +14,7 @@ export function Game () {
 	const context = useBoardContext()
 
 	const renderParticipants = context?.participants?.map((value, index) => (
-		<li key={value.id}>{`${index}:${value.username}`}</li>
+		<CardReval key={value.id} label={value.vote} />
 	))
 
 
@@ -23,7 +23,7 @@ export function Game () {
 			<Header />
 			<RegisterUser />
 			<Flex flexDirection="column" gap="lg" flex={1} fullWidth justifyContent="center" alignItems="center">
-				<ul>{renderParticipants}</ul>
+				<Styles.List>{renderParticipants}</Styles.List>
 				{!context.isPlaying && !context.isReval && (
 					<Button disabled={!context?.currentCard} onClick={context.revalCards}>Revelar</Button>
 				)}

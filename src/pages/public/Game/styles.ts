@@ -23,3 +23,8 @@ export const Count = styled('strong', {
 	color: '$primary'
 })
 
+
+export const List = styled('ul', {
+	display: 'flex',
+	gap: '$md'
+})

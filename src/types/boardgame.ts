@@ -26,3 +26,9 @@ export interface JoinRoomResponse {
   _room: Room
   _participant: Participant
 }
+
+export interface CreateVote {
+  vote: string;
+  user_id: string;
+  room_id: string
+}

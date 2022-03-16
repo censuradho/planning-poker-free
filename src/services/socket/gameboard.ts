@@ -1,5 +1,5 @@
 import socket from '@/src/lib/socket'
-import { CreateRoom, JoinRoom } from '@/src/types/boardgame'
+import { CreateRoom, CreateVote, JoinRoom } from '@/src/types/boardgame'
 import { connectSocket } from './session'
 
 export function createRoom (payload: CreateRoom) {
@@ -13,3 +13,7 @@ export function joinRoom (payload: JoinRoom) {
 	socket.emit('room:join', payload)
 }
 
+
+export function voteRoom (payload: CreateVote) {
+	socket.emit('room:vote', payload)
+} 
