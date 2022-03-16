@@ -1,19 +1,23 @@
-import { Switch } from '@/src/components'
+import { Avatar, Switch } from '@/src/components'
 import { DARK_THEME, LIGHT_THEME } from '@/src/constants/theme'
 import { useLocalStorage } from '@/src/hooks'
-import { THEME_KEY, useTheme } from '@/src/providers'
+import { THEME_KEY, useBoardContext, useTheme } from '@/src/providers'
+import { Flex } from '@/src/styles'
 import { memo } from 'react'
 
 import * as Styles from './styles'
 
-interface HeaderProps {}
-
-function BaseHeader (props: HeaderProps) {
+function BaseHeader () {
 	const { toggleTheme, currentTheme } = useTheme()
+	const context = useBoardContext()
 
 
 	return (
 		<Styles.Header>
+			<Flex gap="sm" alignItems="center">
+				<Avatar alt={context.participant?.username || 'default'} />
+				<Styles.Username>{context.participant?.username}</Styles.Username>
+			</Flex>
 			<Switch defaultChecked={currentTheme === LIGHT_THEME}  onCheckedChange={toggleTheme} label="switch theme dark" />
 		</Styles.Header>
 	)

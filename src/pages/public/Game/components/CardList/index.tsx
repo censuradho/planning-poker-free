@@ -1,7 +1,5 @@
-import { VOTE_CREATE } from '@/src/constants/gameboard'
-import socket from '@/src/lib/socket'
 import { Card, useBoardContext } from '@/src/providers'
-import { memo, useEffect, useState } from 'react'
+import { memo } from 'react'
 
 import * as Styles from './styles'
 
@@ -62,7 +60,6 @@ function BaseCardList (props: CardListProps) {
 	}
 
 	const handleVote = (card: Card) => {
-		socket.emit(VOTE_CREATE, card)
 
 		toggleSelected(card)
 	}

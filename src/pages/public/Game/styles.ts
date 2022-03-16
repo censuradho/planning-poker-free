@@ -22,3 +22,4 @@ export const Count = styled('strong', {
 	fontSize: '$md',
 	color: '$primary'
 })
+

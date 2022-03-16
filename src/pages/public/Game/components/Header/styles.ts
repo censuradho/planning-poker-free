@@ -4,5 +4,10 @@ export const Header = styled('header', {
 	width: '100%',
 	padding: '1rem',
 	display: 'flex',
-	justifyContent: 'flex-end'
+	justifyContent: 'space-between'
+})
+
+export const Username = styled('span', {
+	fontSize: '1rem',
+	color: '$text'
 })

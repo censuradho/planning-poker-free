@@ -11,6 +11,8 @@ import * as Styles from './styles'
 import { useLocalStorage } from '@/src/hooks'
 import { USER_REGISTER } from '@/src/constants/user'
 import socket from '@/src/lib/socket'
+import { LOCAL_STORAGE } from '@/src/constants/localStorage'
+import { connectSocket } from '@/src/services/socket/session'
 
 interface RegisterUserProps {}
 
@@ -19,7 +21,7 @@ interface Payload {
 }
 
 function BaseRegisterUser (props: RegisterUserProps) {
-	const [user, setUser] = useLocalStorage<Payload | undefined>(USER_REGISTER, undefined)
+	const [user, setUser] = useLocalStorage<Payload | undefined>(LOCAL_STORAGE.user, undefined)
 	const [isOpen, setIsOpen] = useState(false)
 
 	const initialValues: Payload = {
@@ -30,9 +32,7 @@ function BaseRegisterUser (props: RegisterUserProps) {
 		setUser(payload)
 		setIsOpen(false)
 
-		socket.auth = payload
-		
-		socket.connect()
+		connectSocket(payload)
 	}
 
 	useEffect(() => {

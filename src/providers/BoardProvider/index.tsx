@@ -1,10 +1,7 @@
 import { useInterval } from '@/src/hooks'
-import { memo, ReactNode, useContext, createContext, useState, Dispatch } from 'react'
-
-
-interface BoardProviderProps {
-  children: ReactNode
-}
+import { Participant } from '@/src/types/boardgame'
+import { memo,  useContext, createContext, useState, Dispatch, useEffect } from 'react'
+import { Outlet } from 'react-router-dom'
 
 export interface Card {
   value: string | number,
@@ -18,14 +15,17 @@ interface BoardContextProps {
   revalCards: () => void
   restartVoting: () => void
   isPlaying?: boolean;
-  countDown: number
+  countDown: number;
+	setParticipant: (participant: Participant) => void;
+	participant?: Participant | null;
 }
 
 const BoardContext = createContext({} as BoardContextProps)
 
 const baseCountDown = 4
 
-function BaseBoardProvider ({ children }: BoardProviderProps) {
+function BaseBoardProvider () {
+	const [participant, setParticipant] = useState<Participant | null>(null)
 	const [currentCard, setCurrentCard] = useState<Card | null>(null)
 	
 	const [isReval, setIsRevail] = useState(false)
@@ -49,6 +49,7 @@ function BaseBoardProvider ({ children }: BoardProviderProps) {
 
 	useInterval(revalCards, isPlaying ? 1000  : null)
 
+	
 	return (
 		<BoardContext.Provider 
 			value={{
@@ -58,9 +59,11 @@ function BaseBoardProvider ({ children }: BoardProviderProps) {
 				revalCards,
 				isPlaying,
 				restartVoting,
-				countDown
+				countDown,
+				setParticipant,
+				participant
 			}}>
-			{children}
+			<Outlet />
 		</BoardContext.Provider>
 	)
 }

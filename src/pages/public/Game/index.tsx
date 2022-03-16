@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+
 import * as Styles from './styles'
 
 import { Button } from '@/src/components'
@@ -5,11 +7,9 @@ import { CardList, CardReval, RegisterUser, Header } from './components'
 
 import { Flex } from '@/src/styles'
 
-import { BoardProvider, useBoardContext } from '@/src/providers'
+import { useBoardContext } from '@/src/providers'
 
-import { withContext } from '@/src/hoc'
-
-function BaseGame () {
+export function Game () {
 	const context = useBoardContext()
 
 	return (
@@ -34,5 +34,3 @@ function BaseGame () {
 		</Styles.Main>
 	)
 }
-
-export const Game = withContext(BaseGame, BoardProvider)

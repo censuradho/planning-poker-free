@@ -1,3 +1,4 @@
 export const routePaths = {
-  app: '/',
+	game: '/game/:id',
+	newGame: '/new-game'
 }
