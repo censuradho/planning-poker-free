@@ -26,20 +26,19 @@ function BaseNewGame () {
 	const navigate = useNavigate()
 	const context = useBoardContext()
 
-	const { data } = useSocket<JoinRoomResponse>('room:join')
 
 	const handleSubmit = (payload: CreateRoom) => {
 		connectSocket({ username: payload.username })
 		createRoom(payload)
 	}
 
+	console.log(context.status, context.participant?.room_id)
 	useEffect(() => {
-		if (!data) return
+		if (!context.status || !context.participant?.room_id) return
 
-		navigate(resolvePath(routePaths.game, { id: data._room.id }))
-		context.setParticipant(data?._participant)
+		navigate(resolvePath(routePaths.game, { id: context.participant?.room_id }))
 
-	}, [data])
+	}, [context.status, context.participant?.room_id])
 
 	return (
 		<Styles.Main>

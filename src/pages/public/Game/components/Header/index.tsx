@@ -1,7 +1,6 @@
 import { Avatar, Switch } from '@/src/components'
-import { DARK_THEME, LIGHT_THEME } from '@/src/constants/theme'
-import { useLocalStorage } from '@/src/hooks'
-import { THEME_KEY, useBoardContext, useTheme } from '@/src/providers'
+import { LIGHT_THEME } from '@/src/constants/theme'
+import { useBoardContext, useTheme } from '@/src/providers'
 import { Flex } from '@/src/styles'
 import { memo } from 'react'
 
@@ -10,7 +9,6 @@ import * as Styles from './styles'
 function BaseHeader () {
 	const { toggleTheme, currentTheme } = useTheme()
 	const context = useBoardContext()
-
 
 	return (
 		<Styles.Header>

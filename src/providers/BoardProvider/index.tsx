@@ -1,5 +1,7 @@
-import { useInterval } from '@/src/hooks'
-import { Participant } from '@/src/types/boardgame'
+import { LOCAL_STORAGE } from '@/src/constants/localStorage'
+import { useInterval, useLocalStorage } from '@/src/hooks'
+import { useSocket } from '@/src/hooks/useSocket'
+import { JoinRoomResponse, Participant } from '@/src/types/boardgame'
 import { memo,  useContext, createContext, useState, Dispatch, useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 
@@ -18,6 +20,8 @@ interface BoardContextProps {
   countDown: number;
 	setParticipant: (participant: Participant) => void;
 	participant?: Participant | null;
+	status?: boolean;
+	setStatus: (value: React.SetStateAction<boolean>) => void
 }
 
 const BoardContext = createContext({} as BoardContextProps)
@@ -25,7 +29,12 @@ const BoardContext = createContext({} as BoardContextProps)
 const baseCountDown = 4
 
 function BaseBoardProvider () {
+	const { data: joinData } = useSocket<JoinRoomResponse>('room:join')
+
 	const [participant, setParticipant] = useState<Participant | null>(null)
+
+	const [status, setStatus] = useState(false)
+	
 	const [currentCard, setCurrentCard] = useState<Card | null>(null)
 	
 	const [isReval, setIsRevail] = useState(false)
@@ -49,6 +58,12 @@ function BaseBoardProvider () {
 
 	useInterval(revalCards, isPlaying ? 1000  : null)
 
+	useEffect(() => {
+		setStatus(!!joinData)
+
+		if (joinData) setParticipant(joinData._participant)
+		
+	}, [joinData])
 	
 	return (
 		<BoardContext.Provider 
@@ -61,7 +76,9 @@ function BaseBoardProvider () {
 				restartVoting,
 				countDown,
 				setParticipant,
-				participant
+				participant,
+				status,
+				setStatus
 			}}>
 			<Outlet />
 		</BoardContext.Provider>
