@@ -10,13 +10,20 @@ import { Flex } from '@/src/styles'
 import { useBoardContext } from '@/src/providers'
 
 export function Game () {
+
 	const context = useBoardContext()
+
+	const renderParticipants = context?.participants?.map((value, index) => (
+		<li key={value.id}>{`${index}:${value.username}`}</li>
+	))
+
 
 	return (
 		<Styles.Main>
 			<Header />
 			<RegisterUser />
 			<Flex flexDirection="column" gap="lg" flex={1} fullWidth justifyContent="center" alignItems="center">
+				<ul>{renderParticipants}</ul>
 				{!context.isPlaying && !context.isReval && (
 					<Button disabled={!context?.currentCard} onClick={context.revalCards}>Revelar</Button>
 				)}

@@ -1,27 +1,24 @@
 import { memo, useEffect, useState } from 'react'
 import { Form, Formik } from 'formik'
+import { useParams } from 'react-router-dom'
 
 import { Modal, Button } from '@/src/components'
 
-
 import { FormikTextField } from '@/src/components'
 
-
 import * as Styles from './styles'
-import { useLocalStorage } from '@/src/hooks'
-import { USER_REGISTER } from '@/src/constants/user'
-import socket from '@/src/lib/socket'
-import { LOCAL_STORAGE } from '@/src/constants/localStorage'
-import { connectSocket } from '@/src/services/socket/session'
+import { useBoardContext } from '@/src/providers'
+import { joinRoom } from '@/src/services/socket/gameboard'
 
-interface RegisterUserProps {}
 
 interface Payload {
-  username: string
+	username: string;
 }
 
-function BaseRegisterUser (props: RegisterUserProps) {
-	const [user, setUser] = useLocalStorage<Payload | undefined>(LOCAL_STORAGE.user, undefined)
+function BaseRegisterUser () {
+	const context = useBoardContext()
+	const params = useParams<{ id: string }>()
+
 	const [isOpen, setIsOpen] = useState(false)
 
 	const initialValues: Payload = {
@@ -29,17 +26,29 @@ function BaseRegisterUser (props: RegisterUserProps) {
 	}
 
 	const handleSubmit = (payload: Payload) => {
-		setUser(payload)
+		joinRoom({
+			room_id: params?.id as string,
+			username: payload.username
+		})
+
 		setIsOpen(false)
 
-		connectSocket(payload)
 	}
 
 	useEffect(() => {
-		if (user) return
+		if (context?.participant) {
+			joinRoom({
+				room_id: params?.id as string,
+				username: context?.participant?.username
+			})
+
+			return
+		}
 
 		setIsOpen(true)
-	}, [isOpen, user])
+
+	}, [])
+
 
 	return (
 		<Modal open={isOpen}>

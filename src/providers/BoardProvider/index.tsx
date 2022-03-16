@@ -1,9 +1,12 @@
-import { LOCAL_STORAGE } from '@/src/constants/localStorage'
-import { useInterval, useLocalStorage } from '@/src/hooks'
-import { useSocket } from '@/src/hooks/useSocket'
-import { JoinRoomResponse, Participant } from '@/src/types/boardgame'
 import { memo,  useContext, createContext, useState, Dispatch, useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
+
+
+import { LOCAL_STORAGE } from '@/src/constants/localStorage'
+import { useInterval, useLocalStorage } from '@/src/hooks'
+import { JoinRoomResponse, Participant } from '@/src/types/boardgame'
+import { useSocket } from '@/src/hooks/useSocket'
+
 
 export interface Card {
   value: string | number,
@@ -20,6 +23,7 @@ interface BoardContextProps {
   countDown: number;
 	setParticipant: (participant: Participant) => void;
 	participant?: Participant | null;
+	participants?: Participant[] | null;
 	status?: boolean;
 	setStatus: (value: React.SetStateAction<boolean>) => void
 }
@@ -30,8 +34,9 @@ const baseCountDown = 4
 
 function BaseBoardProvider () {
 	const { data: joinData } = useSocket<JoinRoomResponse>('room:join')
-
-	const [participant, setParticipant] = useState<Participant | null>(null)
+	const { data: participants } = useSocket<Participant[]>('room:participant-join')
+	
+	const [participant, setParticipant] = useLocalStorage<Participant | null>(LOCAL_STORAGE.user, null)
 
 	const [status, setStatus] = useState(false)
 	
@@ -60,11 +65,10 @@ function BaseBoardProvider () {
 
 	useEffect(() => {
 		setStatus(!!joinData)
-
 		if (joinData) setParticipant(joinData._participant)
-		
+
 	}, [joinData])
-	
+
 	return (
 		<BoardContext.Provider 
 			value={{
@@ -78,7 +82,8 @@ function BaseBoardProvider () {
 				setParticipant,
 				participant,
 				status,
-				setStatus
+				setStatus,
+				participants
 			}}>
 			<Outlet />
 		</BoardContext.Provider>

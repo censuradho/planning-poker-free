@@ -7,13 +7,14 @@ import { Button, FormikTextField } from '@/src/components'
 import { Flex } from '@/src/styles'
 import * as Styles from './styles'
 
-import { CreateRoom, JoinRoomResponse } from '@/src/types/boardgame'
+import { CreateRoom } from '@/src/types/boardgame'
 
 import { createRoom } from '@/src/services/socket/gameboard'
 import { connectSocket } from '@/src/services/socket/session'
-import { useSocket } from '@/src/hooks/useSocket'
+
 import { resolvePath } from '@/src/utils/routes'
 import { routePaths } from '@/src/constants/routes'
+
 import { useBoardContext } from '@/src/providers'
 
 
@@ -32,7 +33,6 @@ function BaseNewGame () {
 		createRoom(payload)
 	}
 
-	console.log(context.status, context.participant?.room_id)
 	useEffect(() => {
 		if (!context.status || !context.participant?.room_id) return
 
