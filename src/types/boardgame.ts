@@ -1,4 +1,4 @@
-interface Room {
+export interface Room {
   id: string
   room: string
   created_at: string
@@ -6,6 +6,7 @@ interface Room {
 
 export interface Participant {
   id: string;
+  isAdmin: boolean;
   username: string;
   vote: string;
   room_id: string;
@@ -31,4 +32,14 @@ export interface CreateVote {
   vote: string;
   user_id: string;
   room_id: string
+}
+
+
+export interface CreteGame {
+  room_id: string
+}
+
+export interface LeaveRoom {
+  room_id: string;
+  user_id: string;
 }

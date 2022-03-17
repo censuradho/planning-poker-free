@@ -9,7 +9,7 @@ export const { styled: Styled, globalCss, getCssText, theme, css, keyframes, cre
 			backgroundDark: darken(0.3, '#F7FAFC'),
 			backgroundLight: darken(0.3, '#F7FAFC'),
 			foreground: '#EDF2F7',
-			foregroundDark: '#C4C4C4',
+			foregroundDark: '#EDF2F7',
 			foregroundLight: lighten(0.4, '#EDF2F7'),
 			text: '#4A5568',
 			textDark: darken(0.4, '#4A5568'),

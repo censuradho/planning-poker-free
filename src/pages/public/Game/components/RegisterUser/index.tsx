@@ -41,12 +41,10 @@ function BaseRegisterUser () {
 				room_id: params?.id as string,
 				username: context?.participant?.username
 			})
-
 			return
 		}
 
 		setIsOpen(true)
-
 	}, [])
 
 
