@@ -33,6 +33,7 @@ function BaseNewGame () {
 		createRoom(payload)
 	}
 
+
 	useEffect(() => {
 		if (!context.status || !context.participant?.room_id) return
 

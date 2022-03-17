@@ -5,6 +5,7 @@ import { Routes } from './routes'
 import { ThemeProvider } from './providers'
 
 function App() {
+
 	return (
 		<ThemeProvider>
 			<Routes />

@@ -11,7 +11,5 @@ export function useSocket <T>(channel: string, defaultValue?: T) {
 		})
 	}, [])
 
-	return {
-		data
-	}
+	return [data]
 }

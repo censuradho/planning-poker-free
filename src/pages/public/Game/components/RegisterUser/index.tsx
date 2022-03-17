@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from 'react'
+import { memo, useState } from 'react'
 import { Form, Formik } from 'formik'
 import { useParams } from 'react-router-dom'
 
@@ -7,16 +7,12 @@ import { Modal, Button } from '@/src/components'
 import { FormikTextField } from '@/src/components'
 
 import * as Styles from './styles'
-import { useBoardContext } from '@/src/providers'
-import { joinRoom } from '@/src/services/socket/gameboard'
-
 
 interface Payload {
 	username: string;
 }
 
 function BaseRegisterUser () {
-	const context = useBoardContext()
 	const params = useParams<{ id: string }>()
 
 	const [isOpen, setIsOpen] = useState(false)
@@ -25,28 +21,7 @@ function BaseRegisterUser () {
 		username: ''
 	}
 
-	const handleSubmit = (payload: Payload) => {
-		joinRoom({
-			room_id: params?.id as string,
-			username: payload.username
-		})
-
-		setIsOpen(false)
-
-	}
-
-	useEffect(() => {
-		if (context?.participant) {
-			joinRoom({
-				room_id: params?.id as string,
-				username: context?.participant?.username
-			})
-			return
-		}
-
-		setIsOpen(true)
-	}, [])
-
+	const handleSubmit = (payload: Payload) => {}
 
 	return (
 		<Modal open={isOpen}>
