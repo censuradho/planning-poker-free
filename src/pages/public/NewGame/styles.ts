@@ -18,6 +18,7 @@ export const Form = styled(FormikForm, {
 })
 
 export const Title = styled('span', {
-	color: '$text',
-	textAlign: 'center'
+	color: '$title',
+	textAlign: 'center',
+	fontSize: '$sm'
 })

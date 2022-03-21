@@ -1,4 +1,5 @@
 import { Card, useBoardContext } from '@/src/providers'
+import { vote } from '@/src/services/socket/gameboard'
 import { memo } from 'react'
 
 import * as Styles from './styles'
@@ -60,9 +61,13 @@ function BaseCardList (props: CardListProps) {
 	}
 
 	const handleVote = (card: Card) => {
-		if (!context.participant) return
+		if (!context.participant || !context.room) return
 
-
+		vote({
+			room_id: context.room?.id,
+			user_id: context.participant.id,
+			vote: card.label
+		})
 		toggleSelected(card)
 	}
 	const renderCards = fibonacci?.map((value, index) => (

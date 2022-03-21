@@ -29,7 +29,6 @@ function BaseNewGame () {
 
 
 	const handleSubmit = (payload: CreateRoom) => {
-		connectSocket({ username: payload.username })
 		createRoom(payload)
 	}
 

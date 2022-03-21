@@ -4,11 +4,11 @@ import { Outlet } from 'react-router-dom'
 
 import { LOCAL_STORAGE } from '@/src/constants/localStorage'
 import { useInterval, useLocalStorage } from '@/src/hooks'
-import { Participant, ParticipantRoom, Room } from '@/src/types/boardgame'
+import { Participant, ParticipantRoom, Room, VoteResponse } from '@/src/types/boardgame'
 
-import { useEventListener } from '@/src/hooks/useEventListener'
 import { useSocket } from '@/src/hooks/useSocket'
-
+import { showCards } from '@/src/services/socket/gameboard'
+import socket from '@/src/lib/socket'
 
 export interface Card {
   value: string | number,
@@ -19,7 +19,7 @@ interface BoardContextProps {
   setCurrentCard: Dispatch<React.SetStateAction<Card | null>>;
   currentCard: Card | null,
   isReval?: boolean,
-  revalCards: () => void
+  setIsPlaying: (value: boolean) => void
   restartVoting: () => void
   isPlaying?: boolean;
   countDown: number;
@@ -32,13 +32,16 @@ interface BoardContextProps {
 
 const BoardContext = createContext({} as BoardContextProps)
 
-const baseCountDown = 4
+const baseCountDown = 3
 
 function BaseBoardProvider () {
+
 	const [participantJoined] = useSocket<ParticipantRoom | null>('room:join:response')
+	const [participantsVote] = useSocket<VoteResponse | null>('room:select-card:response')
 
 	const [participant, setParticipant] = useLocalStorage<Participant | null>(LOCAL_STORAGE.user, null)
-	
+	const [participants, setParticipants] = useState<Participant[]>([])
+
 	const [currentCard, setCurrentCard] = useState<Card | null>(null)
 	
 	const [isReval, setIsRevail] = useState(false)
@@ -47,15 +50,18 @@ function BaseBoardProvider () {
 	const [countDown, setCountDown] = useState(baseCountDown)
 
 	const revalCards = () => {
-		if (!participant) return
-		setIsPlaying(true)
-
 		if (countDown === 1) setIsRevail(true)
 		setCountDown(prevState => prevState > 0 ? prevState - 1 : 0)
 	}
 	
+
 	const restartVoting = () => {
 		if (!participant) return
+
+		setIsPlaying(false)
+		setIsRevail(false)
+		setCurrentCard(null)
+		setCountDown(baseCountDown)
 	}
 	
 	useInterval(revalCards, isPlaying ? 1000  : null)
@@ -64,8 +70,25 @@ function BaseBoardProvider () {
 		if (!participantJoined) return
 
 		setParticipant(participantJoined.participant)
-
+		setParticipants(participantJoined.participants)
 	}, [participantJoined])
+
+	useEffect(() => {
+		if (!participantsVote) return
+		setParticipants(participantsVote.participants)
+	}, [participantsVote])
+
+	useEffect(() => {
+		socket.on('room:show-card:response', () => {
+			setIsPlaying(true)
+		})
+	}, [])
+
+	useEffect(() => {
+		socket.on('room:restart-game:response', () => {
+			restartVoting()
+		})
+	}, [])
 
 	return (
 		<BoardContext.Provider 
@@ -74,14 +97,14 @@ function BaseBoardProvider () {
 				setCurrentCard,
 				currentCard,
 				isReval,
-				revalCards,
+				setIsPlaying,
 				isPlaying,
 				restartVoting,
 				countDown,
 				setParticipant,
 				participant,
 				status: !!participantJoined,
-				participants: participantJoined?.room.participants
+				participants: participants
 			}}>
 			<Outlet />
 		</BoardContext.Provider>

@@ -13,7 +13,6 @@ export interface Room {
   id: string
   name: string
   created_at: string
-  participants: Participant[]
 }
 
 
@@ -24,6 +23,23 @@ export interface CreateRoom {
 
 export interface ParticipantRoom {
   participant: Participant;
-  room: Room
+  room: Room;
+  participants: Participant[]
 }
 
+
+export interface JoinRoom {
+  username: string;
+  room_id: string;
+}
+
+export interface Vote {
+  user_id: string;
+  room_id: string;
+  vote: string
+}
+
+export interface VoteResponse {
+  room: Room;
+  participants: Participant[]
+}
