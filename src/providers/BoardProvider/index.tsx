@@ -38,6 +38,7 @@ function BaseBoardProvider () {
 
 	const [participantJoined] = useSocket<ParticipantRoom | null>('room:join:response')
 	const [participantsVote] = useSocket<VoteResponse | null>('room:select-card:response')
+	const [participantsJoin] = useSocket<Participant[] | null>('room:join-participant:response')
 
 	const [participant, setParticipant] = useLocalStorage<Participant | null>(LOCAL_STORAGE.user, null)
 	const [participants, setParticipants] = useState<Participant[]>([])
@@ -54,14 +55,17 @@ function BaseBoardProvider () {
 		setCountDown(prevState => prevState > 0 ? prevState - 1 : 0)
 	}
 	
-
 	const restartVoting = () => {
-		if (!participant) return
-
 		setIsPlaying(false)
 		setIsRevail(false)
 		setCurrentCard(null)
 		setCountDown(baseCountDown)
+		setParticipants(prevStatet => 
+			prevStatet.map(value => ({
+				...value,
+				vote: ''
+			}))
+		)
 	}
 	
 	useInterval(revalCards, isPlaying ? 1000  : null)
@@ -70,8 +74,13 @@ function BaseBoardProvider () {
 		if (!participantJoined) return
 
 		setParticipant(participantJoined.participant)
-		setParticipants(participantJoined.participants)
 	}, [participantJoined])
+
+	useEffect(() => {
+		if (!participantsJoin) return
+		
+		setParticipants(participantsJoin)
+	}, [participantsJoin])
 
 	useEffect(() => {
 		if (!participantsVote) return

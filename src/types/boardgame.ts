@@ -24,7 +24,6 @@ export interface CreateRoom {
 export interface ParticipantRoom {
   participant: Participant;
   room: Room;
-  participants: Participant[]
 }
 
 

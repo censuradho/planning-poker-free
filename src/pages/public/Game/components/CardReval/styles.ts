@@ -22,6 +22,14 @@ export const Base = styled('div', {
 })
 export const Front = styled(Base, {
 	background: '$primary',
+	
+	variants: {
+		disabled: {
+			true: {
+				opacity: '0.4'
+			}
+		}
+	}
 })
 
 export const Back = styled(Base, {
@@ -46,7 +54,7 @@ export const Card = styled('div', {
 					transform: 'rotateY(180deg)'
 				}
 			}
-		}
+		},
 	}
 })
 

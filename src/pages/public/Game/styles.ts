@@ -17,7 +17,6 @@ export const CardBoardTitle = styled('span', {
 	color: '$text'
 })
 
-
 export const Count = styled('strong', {
 	fontSize: '$md',
 	color: '$primary'
@@ -28,3 +27,7 @@ export const List = styled('ul', {
 	display: 'flex',
 	gap: '$md'
 })
+
+export const CardUsername = styled('span', {
+	color: '$text'
+}) 

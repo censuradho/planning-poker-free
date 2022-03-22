@@ -1,5 +1,3 @@
-import { useEffect } from 'react'
-
 import * as Styles from './styles'
 
 import { AdminView, Button } from '@/src/components'
@@ -19,8 +17,19 @@ export function Game () {
 	const renderParticipants = context?.participants
 		?.filter(value => value.id !== context.participant?.id)
 		?.map(value =>  (
-			<CardReval key={value.id} label={value.vote} />
+			<Flex 
+				key={value.id}
+				flexDirection="column" 
+				gap="sm" 
+				alignItems="center" 
+				justifyContent="center"
+			>
+				<CardReval disabled={!value.vote} label={value.vote} />
+				<Styles.CardUsername>{value.username}</Styles.CardUsername>
+			</Flex>
 		))
+
+	const canShowCards = context?.participants?.map(value => !!value.vote) || [true]
 
 	const handleRevelCards = () => {
 		if (!params?.id) return
@@ -40,14 +49,14 @@ export function Game () {
 				<Styles.List>{renderParticipants}</Styles.List>
 				<AdminView isAdmin={context?.participant?.isAdmin}>
 					{!context.isPlaying && !context.isReval && (
-						<Button disabled={!context?.currentCard} onClick={handleRevelCards}>Revelar</Button>
+						<Button disabled={canShowCards.includes(false)} onClick={handleRevelCards}>show cards</Button>
 					)}
 				</AdminView>
 				{context.isPlaying && !context.isReval && <Styles.Count>{context.countDown}</Styles.Count>}
 				<AdminView isAdmin={context?.participant?.isAdmin}>
-					{context.countDown === 0 && <Button variant="base" onClick={handleRestartGame}>Comear nova votação</Button>}
+					{context.countDown === 0 && <Button variant="base" onClick={handleRestartGame}>start new game</Button>}
 				</AdminView>
-				<CardReval label={context.currentCard?.label || ''} />
+				<CardReval disabled={!context?.currentCard} label={context.currentCard?.label || ''} />
 			</Flex>	
 			<Flex fullWidth flexDirection="column" alignItems="center" justifyContent="center">
 				<Styles.CardBoardTitle>Choose your card 👇</Styles.CardBoardTitle>

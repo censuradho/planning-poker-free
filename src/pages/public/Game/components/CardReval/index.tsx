@@ -4,16 +4,17 @@ import { memo } from 'react'
 import * as Styles from './styles'
 
 interface CardRevalProps {
-  label: string
+  label: string;
+	disabled?: boolean
 }
 
-function BaseCardReval ({ label }: CardRevalProps) {
+function BaseCardReval ({ label, disabled }: CardRevalProps) {
 	const context = useBoardContext()
   
 	return (
 		<Styles.Card isReval={context?.isReval}>
 			<Styles.InnerCard>
-				<Styles.Front></Styles.Front>
+				<Styles.Front disabled={disabled}></Styles.Front>
 				<Styles.Back>
 					<Styles.Label>{label}</Styles.Label>
 				</Styles.Back>
