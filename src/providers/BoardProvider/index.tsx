@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom'
 
 
 import { LOCAL_STORAGE } from '@/src/constants/localStorage'
-import { useInterval, useLocalStorage } from '@/src/hooks'
+import { useInterval, useLocalStorage, useSocketEffect } from '@/src/hooks'
 import { Participant, Room } from '@/src/types/boardgame'
 
 import { useSocket } from '@/src/hooks/useSocket'
@@ -68,17 +68,8 @@ function BaseBoardProvider () {
 		setParticipant(ioParticipant)
 	}, [ioParticipant])
 
-	useEffect(() => {
-		socket.on('room:show-card', () => {
-			setIsPlaying(true)
-		})
-	}, [])
-
-	useEffect(() => {
-		socket.on('room:restart-game', () => {
-			restartVoting()
-		})
-	}, [])
+	useSocketEffect('room:restart-game', restartVoting)
+	useSocketEffect('room:show-card', () => setIsPlaying(true))
 
 	return (
 		<BoardContext.Provider 
