@@ -19,7 +19,7 @@ type SetValue<T> = Dispatch<SetStateAction<T>>
 
 
 export function useLocalStorage<T>(key: string, initialValue: T): [T, SetValue<T>] {
-	const APP_BASE_KEY = import.meta.env.LOCAL_STORAGE_KEY || '@planningPoker'
+	const APP_BASE_KEY = import.meta.env.VITE_APP_LOCAL_STORAGE_KEY || '@planningPoker'
 
 	// Get from local storage then
 	// parse stored json or return initialValue

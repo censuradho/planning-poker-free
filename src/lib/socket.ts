@@ -1,4 +1,4 @@
 import socketIoClient from 'socket.io-client'
  
-export default socketIoClient('http://localhost:3333' as string)
+export default socketIoClient(import.meta.env.VITE_APP_SOCKET_URL as string)
 

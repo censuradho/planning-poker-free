@@ -16,7 +16,7 @@ interface ThemeProviderProps {
   children: ReactNode
 }
 
-const LOCAL_STORAGE_KEY = import.meta.env.LOCAL_STORAGE_KEY
+const LOCAL_STORAGE_KEY = import.meta.env.VITE_APP_LOCAL_STORAGE_KEY
 export const THEME_KEY = LOCAL_STORAGE_KEY ? `${LOCAL_STORAGE_KEY}:theme` : '@planningPoker:theme'
 
 export function ThemeProvider ({ children }: ThemeProviderProps) {
