@@ -38,3 +38,16 @@ Planning poker (also called Scrum poker) helps agile teams estimate the time and
  yarn
  ```
  
+## Running
+
+- npm
+ ```bash
+ npm run dev
+ ```
+ 
+ or
+ 
+ - yarn
+ ```bash
+ yarn dev
+ ```
