@@ -20,7 +20,7 @@ Planning poker (also called Scrum poker) helps agile teams estimate the time and
 
 ## Requirements
  - [Node.js](https://nodejs.org/en/)
-
+- [Backend application](https://github.com/censuradho/planning-poker-backend-free)
  
  ## Installation
  
