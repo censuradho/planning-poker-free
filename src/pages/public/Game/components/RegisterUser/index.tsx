@@ -26,11 +26,8 @@ function BaseRegisterUser () {
 	}
 
 	useEffect(() => {
-		console.log(context)
-
-		if (context.status) {
-			return setIsOpen(false)
-		}
+		if (context.status) return setIsOpen(false)
+		
 		
 		if (context.participant) {
 			setIsOpen(false)

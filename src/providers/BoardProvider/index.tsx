@@ -4,10 +4,9 @@ import { Outlet } from 'react-router-dom'
 
 import { LOCAL_STORAGE } from '@/src/constants/localStorage'
 import { useInterval, useLocalStorage } from '@/src/hooks'
-import { Participant, ParticipantRoom, Room, VoteResponse } from '@/src/types/boardgame'
+import { Participant, Room } from '@/src/types/boardgame'
 
 import { useSocket } from '@/src/hooks/useSocket'
-import { showCards } from '@/src/services/socket/gameboard'
 import socket from '@/src/lib/socket'
 
 export interface Card {
@@ -41,7 +40,6 @@ function BaseBoardProvider () {
 	const [ioParticipants] = useSocket<Participant[] | null>('room:participants')
 
 	const [participant, setParticipant] = useLocalStorage<Participant | null>(LOCAL_STORAGE.user, null)
-	const [participants, setParticipants] = useState<Participant[]>([])
 
 	const [currentCard, setCurrentCard] = useState<Card | null>(null)
 	
@@ -60,12 +58,6 @@ function BaseBoardProvider () {
 		setIsRevail(false)
 		setCurrentCard(null)
 		setCountDown(baseCountDown)
-		setParticipants(prevStatet => 
-			prevStatet.map(value => ({
-				...value,
-				vote: ''
-			}))
-		)
 	}
 	
 	useInterval(revalCards, isPlaying ? 1000  : null)
@@ -75,13 +67,6 @@ function BaseBoardProvider () {
 
 		setParticipant(ioParticipant)
 	}, [ioParticipant])
-
-	useEffect(() => {
-		if (!ioParticipants) return
-		
-		setParticipants(ioParticipants)
-	}, [ioParticipants])
-
 
 	useEffect(() => {
 		socket.on('room:show-card', () => {
@@ -109,7 +94,7 @@ function BaseBoardProvider () {
 				setParticipant,
 				participant,
 				status: !!ioParticipant,
-				participants: participants
+				participants: ioParticipants
 			}}>
 			<Outlet />
 		</BoardContext.Provider>
