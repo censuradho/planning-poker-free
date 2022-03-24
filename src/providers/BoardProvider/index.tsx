@@ -7,7 +7,6 @@ import { useInterval, useLocalStorage, useSocketEffect } from '@/src/hooks'
 import { Participant, Room } from '@/src/types/boardgame'
 
 import { useSocket } from '@/src/hooks/useSocket'
-import socket from '@/src/lib/socket'
 
 export interface Card {
   value: string | number,
