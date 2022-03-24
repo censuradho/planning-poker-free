@@ -26,10 +26,12 @@ function BaseRegisterUser () {
 	}
 
 	useEffect(() => {
+		console.log(context)
+
 		if (context.status) {
 			return setIsOpen(false)
 		}
-
+		
 		if (context.participant) {
 			setIsOpen(false)
 			joinRoom(context.participant)
@@ -37,7 +39,7 @@ function BaseRegisterUser () {
 		}
 
 		setIsOpen(true)
-	}, [context.status])
+	}, [context.status, context.participant])
 
 	const handleSubmit = (payload: Payload) => {
 		if (!params?.id) return

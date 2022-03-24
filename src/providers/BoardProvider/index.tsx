@@ -27,7 +27,7 @@ interface BoardContextProps {
 	participant?: Participant | null;
 	participants?: Participant[] | null;
 	status?: boolean;
-	room?: Room;
+	room?: Room | null;
 }
 
 const BoardContext = createContext({} as BoardContextProps)
@@ -36,9 +36,9 @@ const baseCountDown = 3
 
 function BaseBoardProvider () {
 
-	const [participantJoined] = useSocket<ParticipantRoom | null>('room:join:response')
-	const [participantsVote] = useSocket<VoteResponse | null>('room:select-card:response')
-	const [participantsJoin] = useSocket<Participant[] | null>('room:join-participant:response')
+	const [ioParticipant] = useSocket<Participant | null>('room:participant')
+	const [ioRoom] = useSocket<Room | null>('room:room')
+	const [ioParticipants] = useSocket<Participant[] | null>('room:participants')
 
 	const [participant, setParticipant] = useLocalStorage<Participant | null>(LOCAL_STORAGE.user, null)
 	const [participants, setParticipants] = useState<Participant[]>([])
@@ -71,30 +71,26 @@ function BaseBoardProvider () {
 	useInterval(revalCards, isPlaying ? 1000  : null)
 
 	useEffect(() => {
-		if (!participantJoined) return
+		if (!ioParticipant) return
 
-		setParticipant(participantJoined.participant)
-	}, [participantJoined])
+		setParticipant(ioParticipant)
+	}, [ioParticipant])
 
 	useEffect(() => {
-		if (!participantsJoin) return
+		if (!ioParticipants) return
 		
-		setParticipants(participantsJoin)
-	}, [participantsJoin])
+		setParticipants(ioParticipants)
+	}, [ioParticipants])
+
 
 	useEffect(() => {
-		if (!participantsVote) return
-		setParticipants(participantsVote.participants)
-	}, [participantsVote])
-
-	useEffect(() => {
-		socket.on('room:show-card:response', () => {
+		socket.on('room:show-card', () => {
 			setIsPlaying(true)
 		})
 	}, [])
 
 	useEffect(() => {
-		socket.on('room:restart-game:response', () => {
+		socket.on('room:restart-game', () => {
 			restartVoting()
 		})
 	}, [])
@@ -102,7 +98,7 @@ function BaseBoardProvider () {
 	return (
 		<BoardContext.Provider 
 			value={{
-				room: participantJoined?.room,
+				room: ioRoom,
 				setCurrentCard,
 				currentCard,
 				isReval,
@@ -112,7 +108,7 @@ function BaseBoardProvider () {
 				countDown,
 				setParticipant,
 				participant,
-				status: !!participantJoined,
+				status: !!ioParticipant,
 				participants: participants
 			}}>
 			<Outlet />
