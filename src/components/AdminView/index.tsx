@@ -7,8 +7,10 @@ interface AdminViewProps {
   isAdmin?: boolean
 }
 
-function BaseAdminView ({ children, isAdmin }: AdminViewProps) {
-	if (!isAdmin) return null
+function BaseAdminView ({ children }: AdminViewProps) {
+	const context = useBoardContext()
+
+	if (!context?.participant?.isAdmin) return null
   
 	return (
 		<>{children}</>

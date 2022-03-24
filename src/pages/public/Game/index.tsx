@@ -47,13 +47,13 @@ export function Game () {
 			<RegisterUser />
 			<Flex flexDirection="column" gap="lg" flex={1} fullWidth justifyContent="center" alignItems="center">
 				<Styles.List>{renderParticipants}</Styles.List>
-				<AdminView isAdmin={context?.participant?.isAdmin}>
+				<AdminView>
 					{!context.isPlaying && !context.isReval && (
 						<Button disabled={canShowCards.includes(false)} onClick={handleRevelCards}>show cards</Button>
 					)}
 				</AdminView>
 				{context.isPlaying && !context.isReval && <Styles.Count>{context.countDown}</Styles.Count>}
-				<AdminView isAdmin={context?.participant?.isAdmin}>
+				<AdminView>
 					{context.countDown === 0 && <Button variant="base" onClick={handleRestartGame}>start new game</Button>}
 				</AdminView>
 				<CardReval disabled={!context?.currentCard} label={context.currentCard?.label || ''} />
