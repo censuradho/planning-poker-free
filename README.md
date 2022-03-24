@@ -1,4 +1,4 @@
 # planning-poker-free!
 
-🚧 Rocket Redis is under development 🚧
+🚧 planning-poker-free is under development 🚧
 
