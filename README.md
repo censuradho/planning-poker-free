@@ -18,12 +18,7 @@ Planning poker (also called Scrum poker) helps agile teams estimate the time and
 
 ## Features
 
-- [x] Create a new game
-- [x] Participant join to existing game
-- [x] Players estimate story points
-- [ ] Set the title of a story
-- [ ] Display the average engagement between players
-- [ ] Integrate with jira
+All features todo/in progress/done are listed in [project](https://github.com/users/censuradho/projects/1)
 
 ## Requirements
  - [Node.js](https://nodejs.org/en/)
