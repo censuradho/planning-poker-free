@@ -9,12 +9,12 @@
 
 Planning poker (also called Scrum poker) helps agile teams estimate the time and effort needed to complete each initiative on their product backlog. The name from this gamified technique is planning poker because participants use physical cards. These cards, which look like playing cards, estimate the number of story points for each backlog story or task up for discussion.
 
-## Contents
 
 - [Features](#features)
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Running in development mode](#running-in-development-mode)
+
 
 ## Features
 
