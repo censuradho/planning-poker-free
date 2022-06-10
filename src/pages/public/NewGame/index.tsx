@@ -46,8 +46,8 @@ function BaseNewGame () {
 				<Styles.Form>
 					<Styles.Title>Choose a name for your game and username.</Styles.Title>
 					<Flex flexDirection="column" gap="sm">
-						<FormikTextField name="room_name" placeholder="Game's name" />
-						<FormikTextField name="username" placeholder="Your's username" />
+						<FormikTextField name="room_name" label="Game's name" />
+						<FormikTextField name="username" label="Your's username" />
 						<Button type="submit">Create game</Button>
 					</Flex>
 				</Styles.Form>
