@@ -16,7 +16,11 @@ function BaseHeader () {
 				<Avatar alt={context.player?.name || 'default'} />
 				<Styles.Username>{context.player?.name}</Styles.Username>
 			</Flex>
-			<Switch defaultChecked={currentTheme === LIGHT_THEME}  onCheckedChange={toggleTheme} label="🌒 switch dark theme" />
+			<Switch 
+				defaultChecked={currentTheme === LIGHT_THEME}  
+				onCheckedChange={toggleTheme} 
+				label="🌒 switch dark theme" 
+			/>
 		</Styles.Header>
 	)
 }

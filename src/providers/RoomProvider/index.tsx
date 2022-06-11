@@ -14,6 +14,7 @@ import { COLLECTION_ROOM, STORAGE_COLLECTION_ROOM } from '@/src/constants/firest
 interface Room {
  data: RoomSchema | null;
  player: PlayerSchema | null;
+ participants: PlayerSchema[];
  setStorageRoom: (value: StorageRoom) => void
 }
 
@@ -36,10 +37,21 @@ export function RoomProvider () {
 		return player
 	}, [data?.players, storageRoom])
   
+	const participants = useMemo(() => {
+		const result = Object
+			.entries(data?.players || {})
+			.filter(([key, value]) => value.id !== player?.id)
+		
+		if (!result) return []
+
+		return result.map(([key, value]) => value)
+	}, [player, data?.players])
+
 	return (
 		<RoomContext.Provider value={{
 			data,
 			player,
+			participants,
 			setStorageRoom
 		}}>
 			<Outlet />
