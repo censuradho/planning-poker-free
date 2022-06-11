@@ -1,4 +1,4 @@
-import { useBoardContext } from '@/src/providers'
+import {  useRoom } from '@/src/providers'
 import { memo, ReactNode } from 'react'
 
 
@@ -8,9 +8,9 @@ interface AdminViewProps {
 }
 
 function BaseAdminView ({ children }: AdminViewProps) {
-	const context = useBoardContext()
+	const context = useRoom()
 
-	if (!context?.participant?.isAdmin) return null
+	if (!context?.player?.isAdm) return null
   
 	return (
 		<>{children}</>

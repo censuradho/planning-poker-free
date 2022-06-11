@@ -9,7 +9,6 @@ export const Button = styled('button', {
 	display: 'flex',
 	alignItems: 'center',
 	justifyContent: 'center',
-  
 	variants: {
 		color: {
 			underline: {
@@ -37,7 +36,7 @@ export const Button = styled('button', {
 				color: '#fff',
 				background: '$primary',
 				padding: '0 0.8rem',
-				minHeight: '2.4rem',
+				minHeight: '3.4rem',
 				minWidth: '7.5rem',
 
 				'&:hover, &:focus': {
