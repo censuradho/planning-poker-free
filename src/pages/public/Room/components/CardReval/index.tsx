@@ -1,4 +1,4 @@
-import { useBoardContext } from '@/src/providers'
+import { useRoom } from '@/src/providers'
 import { memo } from 'react'
 
 import * as Styles from './styles'
@@ -9,10 +9,10 @@ interface CardRevalProps {
 }
 
 function BaseCardReval ({ label, disabled }: CardRevalProps) {
-	const context = useBoardContext()
+	const context = useRoom()
   
 	return (
-		<Styles.Card isReval={context?.isReval}>
+		<Styles.Card isReval={context?.data?.isReveal}>
 			<Styles.InnerCard>
 				<Styles.Front disabled={disabled}></Styles.Front>
 				<Styles.Back>

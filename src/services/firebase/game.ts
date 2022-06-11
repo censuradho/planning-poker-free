@@ -2,7 +2,7 @@ import { v4 as uuid } from 'uuid'
 
 import { firestore } from '@/src/lib/firebase'
 
-import type { CreatePlayer, CreateRoom, Players, PlayerSchema, RoomSchema, UpdatePlayer, UpdateRoom } from '@/src/types/game'
+import type { CreatePlayer, CreateRoom, PlayerSchema, RoomSchema, UpdatePlayer, UpdateRoom } from '@/src/types/game'
 
 import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
 

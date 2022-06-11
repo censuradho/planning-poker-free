@@ -25,13 +25,24 @@ export function Room () {
 				<Styles.CardUsername>{value.name}</Styles.CardUsername>
 			</Flex>
 		))
-
-
+	
 	return (
 		<Styles.Main>
 			<Header />
 			<RegisterUser />
 			<Flex flexDirection="column" gap="lg" flex={1} fullWidth justifyContent="center" alignItems="center">
+				<AdminView>
+					{!context?.data?.isReveal && !context?.data?.isPlaying  && (
+						<Button 
+							disabled={!context.canReveal} 
+							onClick={context?.reveal}
+						>
+						show cards
+						</Button>
+					)}
+					{context.countDown === 0 && context?.data?.isPlaying &&  <Button variant="base" onClick={context?.restart}>start new game</Button>}
+				</AdminView>
+				{context?.data?.isPlaying && context?.countDown > 0 && <Styles.Count>{context.countDown}</Styles.Count>}
 				<Styles.List>{renderParticipants}</Styles.List>
 				{/* <AdminView>
 					{!context.isPlaying && !context.isReval && (
