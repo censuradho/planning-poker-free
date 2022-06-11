@@ -1,6 +1,6 @@
 import { Avatar, Switch } from '@/src/components'
 import { LIGHT_THEME } from '@/src/constants/theme'
-import { useBoardContext, useTheme } from '@/src/providers'
+import { useRoom, useTheme } from '@/src/providers'
 import { Flex } from '@/src/styles'
 import { memo } from 'react'
 
@@ -8,13 +8,13 @@ import * as Styles from './styles'
 
 function BaseHeader () {
 	const { toggleTheme, currentTheme } = useTheme()
-	const context = useBoardContext()
+	const context = useRoom()
 
 	return (
 		<Styles.Header>
 			<Flex gap="sm" alignItems="center">
-				<Avatar alt={context.participant?.username || 'default'} />
-				<Styles.Username>{context.participant?.username}</Styles.Username>
+				<Avatar alt={context.player?.name || 'default'} />
+				<Styles.Username>{context.player?.name}</Styles.Username>
 			</Flex>
 			<Switch defaultChecked={currentTheme === LIGHT_THEME}  onCheckedChange={toggleTheme} label="🌒 switch dark theme" />
 		</Styles.Header>

@@ -31,7 +31,7 @@ export function Room () {
 
 	return (
 		<Styles.Main>
-			{/* <Header /> */}
+			<Header />
 			{/* <RegisterUser /> */}
 			<Flex flexDirection="column" gap="lg" flex={1} fullWidth justifyContent="center" alignItems="center">
 				{/* <Styles.List>{renderParticipants}</Styles.List> */}
