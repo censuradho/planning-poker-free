@@ -15,7 +15,9 @@ interface Room {
  data: RoomSchema | null;
  player: PlayerSchema | null;
  participants: PlayerSchema[];
- setStorageRoom: (value: StorageRoom) => void
+ canReveal: boolean;
+ setStorageRoom: (value: StorageRoom) => void;
+ storageRoom: StorageRoom | null
 }
 
 const RoomContext = createContext({} as Room)
@@ -47,12 +49,16 @@ export function RoomProvider () {
 		return result.map(([key, value]) => value)
 	}, [player, data?.players])
 
+	const canReveal = !(!participants?.find(value => !value.vote)?.vote && !player?.vote)
+
 	return (
 		<RoomContext.Provider value={{
 			data,
 			player,
 			participants,
-			setStorageRoom
+			canReveal,
+			setStorageRoom,
+			storageRoom
 		}}>
 			<Outlet />
 		</RoomContext.Provider>

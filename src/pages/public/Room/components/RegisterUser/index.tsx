@@ -7,15 +7,19 @@ import { Modal, Button } from '@/src/components'
 import { FormikTextField } from '@/src/components'
 
 import * as Styles from './styles'
-import { useBoardContext } from '@/src/providers'
+import { useBoardContext, useRoom } from '@/src/providers'
 import { joinRoom } from '@/src/services/socket/gameboard'
+import { createPlayer } from '@/src/services/firebase'
+import { useBooleanToggle } from '@/src/hooks'
 
 interface Payload {
 	username: string;
 }
 
 function BaseRegisterUser () {
-	const context = useBoardContext()
+	const [isLoading, toggleIsLoading] = useBooleanToggle(false)
+
+	const context = useRoom()
 
 	const params = useParams<{ id: string }>()
 
@@ -26,25 +30,28 @@ function BaseRegisterUser () {
 	}
 
 	useEffect(() => {
-		if (context.status) return setIsOpen(false)
-		
-		
-		if (context.participant) {
-			setIsOpen(false)
-			joinRoom(context.participant)
-			return 
-		}
+		if (context?.storageRoom) return setIsOpen(false)
 
 		setIsOpen(true)
-	}, [context.status, context.participant])
+	}, [context?.storageRoom])
 
-	const handleSubmit = (payload: Payload) => {
-		if (!params?.id) return
+	const handleSubmit = async (payload: Payload) => {
+		try {
+			toggleIsLoading()
+			if (!params?.id) return
 
-		joinRoom({
-			room_id: params?.id,
-			username: payload.username
-		})
+			const player = await createPlayer({
+				name: payload.username,
+				room_id: params?.id
+			})
+	
+			context?.setStorageRoom({
+				player_id: player.id,
+				room_id: params?.id
+			})
+		} finally {
+			toggleIsLoading()
+		}
 	}
 
 	return (
@@ -53,7 +60,11 @@ function BaseRegisterUser () {
 				<Form>
 					<Styles.Container>
 						<FormikTextField name="username" placeholder="Your display name" />
-						<Button type="submit" fullWidth>Continue to game</Button>
+						<Button 
+							isLoading={isLoading} 
+							type="submit" 
+							fullWidth
+						>Continue to game</Button>
 					</Styles.Container>
 				</Form>
 			</Formik>

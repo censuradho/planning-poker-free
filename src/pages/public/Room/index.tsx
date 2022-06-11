@@ -11,7 +11,6 @@ import { useRoom } from '@/src/providers'
 export function Room () {
 	const params = useParams<{ id: string }>()
 	const context = useRoom()
-	// const context = useBoardContext()
 
 	const renderParticipants = context?.participants
 		?.map(value =>  (
@@ -27,12 +26,11 @@ export function Room () {
 			</Flex>
 		))
 
-	// const canShowCards = context?.participants?.map(value => !!value.vote) || [true]
 
 	return (
 		<Styles.Main>
 			<Header />
-			{/* <RegisterUser /> */}
+			<RegisterUser />
 			<Flex flexDirection="column" gap="lg" flex={1} fullWidth justifyContent="center" alignItems="center">
 				<Styles.List>{renderParticipants}</Styles.List>
 				{/* <AdminView>
