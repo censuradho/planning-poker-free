@@ -1,6 +1,5 @@
 import { memo } from 'react'
 import {
-	BrowserRouter,
 	Routes,
 	Route,
 	Navigate,
@@ -16,7 +15,7 @@ function BasePublicRoutes () {
 			<Route element={<RoomProvider />}>
 				{/* <Route path={routePaths.game} element={<Pages.Game />} /> */}
 				<Route path={routePaths.room} element={<Pages.Room />} />
-				<Route path={routePaths.newRoom} element={<Pages.NewGame />} />
+				<Route path={routePaths.newRoom} element={<Pages.NewRoom />} />
 				<Route path="*" element={<Navigate to={routePaths.newRoom} />} />
 			</Route>
 		</Routes>

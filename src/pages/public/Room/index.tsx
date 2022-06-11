@@ -5,8 +5,6 @@ import { CardList, CardReval, RegisterUser, Header } from './components'
 
 import { Flex } from '@/src/styles'
 
-import { useBoardContext } from '@/src/providers'
-import { restartGame, showCards } from '@/src/services/socket/gameboard'
 import { useParams } from 'react-router-dom'
 
 export function Room () {
@@ -31,20 +29,10 @@ export function Room () {
 
 	// const canShowCards = context?.participants?.map(value => !!value.vote) || [true]
 
-	const handleRevelCards = () => {
-		if (!params?.id) return
-		showCards(params?.id)
-	}
-
-	const handleRestartGame = () => {
-		if (!params?.id) return
-		restartGame(params?.id)
-	}
-	
 	return (
 		<Styles.Main>
-			<Header />
-			<RegisterUser />
+			{/* <Header /> */}
+			{/* <RegisterUser /> */}
 			<Flex flexDirection="column" gap="lg" flex={1} fullWidth justifyContent="center" alignItems="center">
 				{/* <Styles.List>{renderParticipants}</Styles.List> */}
 				{/* <AdminView>

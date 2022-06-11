@@ -2,7 +2,7 @@ import { v4 as uuid } from 'uuid'
 
 import { firestore } from '@/src/lib/firebase'
 
-import type { CreatePlayer, CreateRoom, Players, PlayerSchema, RoomSchema, UpdateRoom } from '@/src/types/game'
+import type { CreatePlayer, CreateRoom, Players, PlayerSchema, RoomSchema, UpdatePlayer, UpdateRoom } from '@/src/types/game'
 
 import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
 
@@ -51,4 +51,27 @@ export async function createPlayer (payload: CreatePlayer) {
 	})
 
 	return player
+}
+
+export async function updatePlayer (gameId: string, playerId: string, payload: UpdatePlayer) {
+	const data = (await getDoc(doc(firestore, COLLECTION_ROOM, gameId))).data() as RoomSchema | null
+
+	if (!data) throw new Error('Game not found')
+
+	const player = data?.players?.[playerId]
+
+	if (!player) throw new Error('Player not found')
+
+	const newPlayerData: PlayerSchema = {
+		...player,
+		...payload
+	}
+
+	const room: UpdateRoom = {
+		players: {
+			...(data?.players || {}),
+			[player.id]: newPlayerData
+		}
+	}
+	await updateRoom(gameId, room)
 }

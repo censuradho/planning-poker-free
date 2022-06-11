@@ -1,3 +1,3 @@
 export * from './Game'
-export * from './NewGame'
+export * from './NewRoom'
 export * from './Room'

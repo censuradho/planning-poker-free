@@ -15,6 +15,7 @@ import { routePaths } from '@/src/constants/routes'
 import { createRoom, createPlayer } from '@/src/services/firebase'
 
 import { useBooleanToggle } from '@/src/hooks'
+import { useRoom } from '@/src/providers'
 
 interface CreateRoom {
 	room_name: string;
@@ -26,8 +27,9 @@ const baseDetails: CreateRoom = {
 	username: 'teste'
 }
 
-function BaseNewGame () {
+function BaseNewRoom () {
 	const [isLoading, toggleIsLoading] = useBooleanToggle(false)
+	const context = useRoom()
 
 	const navigate = useNavigate()
 
@@ -38,9 +40,14 @@ function BaseNewGame () {
 				name: payload.room_name
 			})
 
-			await createPlayer({
+			const player = await createPlayer({
 				room_id: room.id,
 				name: payload.username
+			})
+
+			context.setStorageRoom({
+				player_id: player.id,
+				room_id: room.id
 			})
 
 			navigate(resolvePath(routePaths.room, { id: room.id }))
@@ -49,7 +56,6 @@ function BaseNewGame () {
 			toggleIsLoading()
 		}
 	}
-
 
 	useEffect(() => {
 		// if (!context.status || !context.participant?.room_id) return
@@ -76,4 +82,4 @@ function BaseNewGame () {
 	)
 }
 
-export const NewGame = memo(BaseNewGame)
+export const NewRoom = memo(BaseNewRoom)

@@ -1,3 +1,5 @@
+import { string } from 'yup'
+
 export interface PlayerSchema {
   name: string;
   id: string;
@@ -11,6 +13,11 @@ export type CreatePlayer = Pick<PlayerSchema,
   'name' | 
   'room_id'
 >
+
+export type UpdatePlayer = Partial<Pick<PlayerSchema,
+  'name'
+  | 'vote'
+>>
 
 export interface RoomSchema {
   id: string;
@@ -26,3 +33,8 @@ export type UpdateRoom = Partial<Pick<RoomSchema,
   'name' 
   | 'players'>
 >
+
+export interface StorageRoom {
+  room_id: string;
+  player_id: string;
+}
