@@ -11,8 +11,9 @@ export interface PlayerSchema {
 export type Players = Record<string, PlayerSchema>
 
 export type CreatePlayer = Pick<PlayerSchema, 
-  'name' | 
-  'room_id'
+  'name' 
+  | 'room_id'
+  | 'isAdm'
 >
 
 export type UpdatePlayer = Partial<Pick<PlayerSchema,

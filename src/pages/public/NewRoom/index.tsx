@@ -42,7 +42,8 @@ function BaseNewRoom () {
 
 			const player = await createPlayer({
 				room_id: room.id,
-				name: payload.username
+				name: payload.username,
+				isAdm: true
 			})
 
 			context.setStorageRoom({

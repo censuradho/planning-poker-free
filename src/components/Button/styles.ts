@@ -9,6 +9,7 @@ export const Button = styled('button', {
 	display: 'flex',
 	alignItems: 'center',
 	justifyContent: 'center',
+	textTransform: 'uppercase',
 	variants: {
 		color: {
 			underline: {

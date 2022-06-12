@@ -30,14 +30,16 @@ export async function createPlayer (payload: CreatePlayer) {
 
 	const {
 		name,
-		room_id
+		room_id,
+		isAdm = false
 	} = payload
 
 	const player: PlayerSchema = {
 		id,
 		name,
 		room_id,
-		vote: ''
+		vote: '',
+		isAdm
 	}
 
 	const gameResponse = await getDoc(doc(firestore, COLLECTION_ROOM, room_id))
