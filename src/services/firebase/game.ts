@@ -7,6 +7,7 @@ import type { CreatePlayer, CreateRoom, PlayerSchema, RoomSchema, UpdatePlayer, 
 import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
 
 import { COLLECTION_ROOM } from '@/src/constants/firestore'
+import { User } from 'firebase/auth'
 
 export async function createRoom  (payload: CreateRoom) {
 	const id = uuid()
@@ -25,8 +26,8 @@ export async function updateRoom (gameId: string, payload: UpdateRoom) {
 	await updateDoc(doc(firestore, COLLECTION_ROOM, gameId), payload)
 }
 
-export async function createPlayer (payload: CreatePlayer) {
-	const id = uuid()
+export async function createPlayer (payload: CreatePlayer, user?: User) {
+	const id = user ? user?.uid : uuid() 
 
 	const {
 		name,

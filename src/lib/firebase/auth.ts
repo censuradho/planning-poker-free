@@ -1,11 +1,10 @@
-import { signInAnonymously as signInAnonymouslySdk } from 'firebase/auth'
+import { browserSessionPersistence, setPersistence, signInAnonymously as signInAnonymouslySdk } from 'firebase/auth'
 
 import { auth } from '.'
 
-auth.setPersistence({
-	type: 'SESSION'
-})
 
-export function signInAnonymously () {
+
+export async function signInAnonymously () {
+	setPersistence(auth, browserSessionPersistence)
 	return signInAnonymouslySdk(auth)
 }
