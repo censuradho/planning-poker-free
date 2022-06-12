@@ -30,8 +30,12 @@ const baseCountDown = 3
 export function RoomProvider () {
 	const [storageRoom, setStorageRoom] = useLocalStorage<StorageRoom | null>(STORAGE_COLLECTION_ROOM, null)
 
-	const { data } = useFirestore<RoomSchema | null>(`/${COLLECTION_ROOM}/${storageRoom?.room_id}`, { initialState : null })
-	const [isVisibleCards, setIsVisibleCards] = useState(false)
+	const { data } = useFirestore<RoomSchema | null>(`/${COLLECTION_ROOM}/${storageRoom?.room_id}`, 
+		{ 
+			initialState : null,
+			onNotFound: () => setStorageRoom(null)
+		}
+	)
 
 	const [countDown, setCountDown] = useState(baseCountDown)
 
@@ -67,6 +71,7 @@ export function RoomProvider () {
 
 	const handleRestart = async () => {
 		if (!data?.id || !player) return
+
 		await updateRoom(data?.id, {
 			isPlaying: false,
 			isReveal: false
@@ -84,7 +89,7 @@ export function RoomProvider () {
 	}
 
 	const revealCards = async () => {
-		if (countDown === 1 && data?.id) {
+		if (countDown === 1 && data?.id && player?.isAdm) {
 			await updateRoom(data?.id, {
 				isReveal: true
 			})
@@ -95,7 +100,11 @@ export function RoomProvider () {
 	
 	useInterval(revealCards, data?.isPlaying ? 1000  : null)
 
-	const canReveal = !(!participants?.find(value => !value.vote)?.vote && !player?.vote)
+	const canReveal = useMemo(() => {
+		const participantsVote = participants?.map(value => !!value.vote)
+
+		return participantsVote.length > 0 && !participantsVote.includes(false) && !!player?.vote
+	}, [participants, player?.vote])
 
 	useEffect(() => {
 		if (data?.isReveal) return

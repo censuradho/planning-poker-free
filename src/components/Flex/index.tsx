@@ -25,6 +25,7 @@ function BaseFlex ({ children, fullWidth, gap, ...props}: FlexProps) {
 	return (
 		<div style={{
 			...props,
+			display: 'flex',
 			width: fullWidth ? '100%' : 'auto',
 			gap: gap && `${gap}rem`
 		}}>
