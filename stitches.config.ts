@@ -27,7 +27,7 @@ export const { styled: Styled, globalCss, getCssText, theme, css, keyframes, cre
 		space: {
 			xs: '0.85rem',
 			sm: '1.5rem',
-			md: '3rem',
+			md: '1.5rem',
 			lg: '4.3rem',
 			xlg: '5rem',
 		},
