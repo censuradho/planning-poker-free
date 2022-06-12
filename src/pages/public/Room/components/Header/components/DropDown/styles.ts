@@ -78,3 +78,6 @@ export const Arrow = styled(DropdownMenu.Arrow , {
 })
 
 
+
+export const TriggerItem = styled(DropdownMenu.TriggerItem , {
+})

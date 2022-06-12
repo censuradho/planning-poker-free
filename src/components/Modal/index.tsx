@@ -8,6 +8,8 @@ interface ModalProps {
 }
 
 function BaseModal ({ children, open }: ModalProps) {
+	if (!open) return null
+	
 	return (
 		<Styles.Root open={open}>
 			<Styles.Portal>

@@ -3,14 +3,20 @@ import { Button, Flex, Modal, TextField } from '@/src/components'
 import { useBooleanToggle } from '@/src/hooks'
 import { useToast } from '@/src/providers'
 
-import { memo } from 'react'
+import { memo, ReactNode } from 'react'
 
-function BaseShareModal () {
+interface ShareModalProps {
+  children: ReactNode
+}
+
+function BaseShareModal ({ children }: ShareModalProps) {
 	const { openNotification } = useToast()
 
-	const [isOpen, toggleIsOpen] = useBooleanToggle(true)
+	const [isOpen, toggleIsOpen] = useBooleanToggle(false)
 
 	const handleCopyClipBoard = () => {
+		navigator.clipboard.writeText(window.location.href)
+
 		openNotification({
 			icon: {
 				name: 'done',
@@ -22,15 +28,27 @@ function BaseShareModal () {
 		toggleIsOpen()
 	}
 
+	const handleOpen = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+		event.stopPropagation()
+		toggleIsOpen()
+	}
+
 	return (
-		<Modal open={isOpen}>
-			<Flex gap={1} flexDirection="column">
-				<TextField value={window.location.href} />
-				<Button 
-					onClick={handleCopyClipBoard} 
-					fullWidth>Copy link</Button>
-			</Flex>
-		</Modal>
+		<>
+			<div onClick={handleOpen}>
+				{children}
+			</div>
+			{isOpen && (
+				<Modal open={isOpen}>
+					<Flex gap={1} flexDirection="column">
+						<TextField value={window.location.href} />
+						<Button 
+							onClick={handleCopyClipBoard} 
+							fullWidth>Copy link</Button>
+					</Flex>
+				</Modal>
+			)}
+		</>
 	)
 }
 

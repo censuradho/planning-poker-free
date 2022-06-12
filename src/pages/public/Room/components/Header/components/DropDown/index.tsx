@@ -1,15 +1,12 @@
-import { useRoom } from '@/src/providers'
-import { updatePlayer } from '@/src/services/firebase'
 import { memo, ReactNode } from 'react'
-import { Flex } from '../Flex'
-import { Switch } from '../Form'
-import { Icon } from '../icons'
 
+import { useRoom } from '@/src/providers'
+
+import { updatePlayer } from '@/src/services/firebase'
+
+import { Flex, Icon, Switch } from '@/src/components'
+import { ShareModal } from '..'
 import * as Styles from './styles'
-
-interface Item {
-  label: string
-}
 
 interface DropDownProps {
   children: ReactNode;
@@ -36,6 +33,16 @@ function BaseDropDown ({ children }: DropDownProps) {
 				sideOffset={5} 
 			>
 				<Flex flexDirection="column" gap={0.5} fullWidth>
+					<Styles.Item>
+						<ShareModal>
+							<Flex gap={1} alignItems="center"  fullWidth>
+			
+								<Icon name="share" />
+								<Styles.Label>Invite players</Styles.Label>
+			
+							</Flex>
+						</ShareModal>
+					</Styles.Item>
 					<Styles.Item onSelect={event => event.preventDefault()}>
 						<Flex gap={1} alignItems="center"  fullWidth>
 							<Icon name="settings" />
