@@ -10,7 +10,8 @@ import type {
 import { useFirestore, useInterval, useLocalStorage } from '@/src/hooks'
 
 import { COLLECTION_ROOM, STORAGE_COLLECTION_ROOM } from '@/src/constants/firestore'
-import { updatePlayer, updateRoom } from '@/src/services/firebase'
+import { deletePlayer, updatePlayer, updateRoom } from '@/src/services/firebase'
+import { useEventListener } from '@/src/hooks/useEventListener'
 
 interface Room {
 	data: RoomSchema | null;

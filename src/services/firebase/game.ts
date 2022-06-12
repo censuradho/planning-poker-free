@@ -77,3 +77,18 @@ export async function updatePlayer (gameId: string, playerId: string, payload: U
 	}
 	await updateRoom(gameId, room)
 }
+
+export async function deletePlayer (gameId: string, playerId: string) {
+	const data = (await getDoc(doc(firestore, COLLECTION_ROOM, gameId))).data() as RoomSchema | null
+	if (!data) throw new Error('Game not found')
+	const player = data?.players?.[playerId]
+	if (!player) throw new Error('Player not found')
+
+	delete data?.players?.[playerId]
+
+	const room: UpdateRoom = {
+		players: data?.players
+	}
+
+	await updateRoom(gameId, room)
+}

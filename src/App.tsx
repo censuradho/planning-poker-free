@@ -3,13 +3,15 @@ import { Notification } from '@/src/components'
 import { Routes } from './routes'
 
 import { ThemeProvider } from './providers'
+import { AuthProvider } from './providers'
 
 function App() {
-
 	return (
 		<ThemeProvider>
-			<Routes />
-			<Notification />
+			<AuthProvider>
+				<Routes />
+				<Notification />
+			</AuthProvider>
 		</ThemeProvider>
 	)
 }
