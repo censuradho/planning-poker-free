@@ -7,10 +7,12 @@ import { Flex } from '@/src/styles'
 
 import { useRoom } from '@/src/providers'
 
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { useTimeout } from '@/src/hooks'
 
 export function Room () {
 	const context = useRoom()
+	const [isMounted, setIsMounted] = useState(false)
 
 	const renderParticipants = useMemo(() => context?.participants
 		?.map(value =>  (
@@ -30,10 +32,14 @@ export function Room () {
 			</Flex>
 		)), [context?.participants])
 	
+	useTimeout(() => {
+		setIsMounted(true)
+	}, 1000)
+
 	return (
 		<Styles.Main>
 			<Header />
-			<RegisterUser />
+			{isMounted && <RegisterUser />}
 			<Flex flexDirection="column" gap="lg" flex={1} fullWidth justifyContent="center" alignItems="center">
 				<AdminView>
 					{!context?.data?.isReveal && !context?.data?.isPlaying  && (

@@ -14,7 +14,7 @@ import { routePaths } from '@/src/constants/routes'
 
 import { createRoom, createPlayer } from '@/src/services/firebase'
 
-import { useBooleanToggle } from '@/src/hooks'
+import { useBooleanToggle, useInterval, useTimeout } from '@/src/hooks'
 import { useAuthContext, useRoom } from '@/src/providers'
 
 interface CreateRoom {
@@ -29,6 +29,7 @@ const baseDetails: CreateRoom = {
 
 function BaseNewRoom () {
 	const { user } = useAuthContext()
+	const context = useRoom()
 
 	const [isLoading, toggleIsLoading] = useBooleanToggle(false)
 

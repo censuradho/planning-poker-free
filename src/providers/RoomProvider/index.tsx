@@ -1,4 +1,4 @@
-import { Outlet, useParams, useSearchParams } from 'react-router-dom'
+import { Outlet,  useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { createContext, useMemo, useContext, useState, useEffect } from 'react'
 
 import type { 
@@ -10,8 +10,7 @@ import type {
 import { useFirestore, useInterval } from '@/src/hooks'
 
 import { COLLECTION_ROOM } from '@/src/constants/firestore'
-import { deletePlayer, updatePlayer, updateRoom } from '@/src/services/firebase'
-import { useEventListener } from '@/src/hooks/useEventListener'
+import { updatePlayer, updateRoom } from '@/src/services/firebase'
 import { useAuthContext } from '../Auth'
 
 interface Room {
