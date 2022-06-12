@@ -21,7 +21,11 @@ export function Room () {
 				alignItems="center" 
 				justifyContent="center"
 			>
-				<CardReval disabled={!value.vote} label={value.vote} />
+				<CardReval 
+					isSpectator={value?.isSpectator} 
+					disabled={!value.vote} 
+					label={value.vote} 
+				/>
 				<Styles.CardUsername>{value.name}</Styles.CardUsername>
 			</Flex>
 		)), [context?.participants])

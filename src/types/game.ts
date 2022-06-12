@@ -1,11 +1,10 @@
-import { string } from 'yup'
-
 export interface PlayerSchema {
   name: string;
   id: string;
   vote: string;
   room_id: string;
   isAdm?: boolean;
+  isSpectator?: boolean
 }
 
 export type Players = Record<string, PlayerSchema>
@@ -16,9 +15,9 @@ export type CreatePlayer = Pick<PlayerSchema,
   | 'isAdm'
 >
 
-export type UpdatePlayer = Partial<Pick<PlayerSchema,
-  'name'
-  | 'vote'
+export type UpdatePlayer = Partial<Omit<PlayerSchema,
+  'id'
+  | 'room_id'
 >>
 
 export interface RoomSchema {

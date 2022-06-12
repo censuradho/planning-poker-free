@@ -1,4 +1,4 @@
-import { Avatar, Switch } from '@/src/components'
+import { Avatar, DropDown, Switch } from '@/src/components'
 import { LIGHT_THEME } from '@/src/constants/theme'
 import { useRoom, useTheme } from '@/src/providers'
 import { Flex } from '@/src/styles'
@@ -12,10 +12,12 @@ function BaseHeader () {
 
 	return (
 		<Styles.Header>
-			<Flex gap="sm" alignItems="center">
-				<Avatar alt={context.player?.name || 'default'} />
-				<Styles.Username>{context.player?.name}</Styles.Username>
-			</Flex>
+			<DropDown>
+				<Flex gap="sm" alignItems="center">
+					<Avatar alt={context.player?.name || 'default'} />
+					<Styles.Username>{context.player?.name}</Styles.Username>
+				</Flex>
+			</DropDown>
 			<Switch 
 				defaultChecked={currentTheme === LIGHT_THEME}  
 				onCheckedChange={toggleTheme} 
