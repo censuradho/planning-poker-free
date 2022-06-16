@@ -36,10 +36,8 @@ function BaseDropDown ({ children }: DropDownProps) {
 					<Styles.Item>
 						<ShareModal>
 							<Flex gap={1} alignItems="center"  fullWidth>
-			
 								<Icon name="share" />
 								<Styles.Label>Invite players</Styles.Label>
-			
 							</Flex>
 						</ShareModal>
 					</Styles.Item>

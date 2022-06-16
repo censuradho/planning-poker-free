@@ -106,7 +106,7 @@ export function RoomProvider () {
 			.filter(value => !value?.isSpectator)
 			.map(value => !!value?.vote)
 
-		return players?.length > 0 && !players?.includes(false)
+		return players?.length > 1 && !players?.includes(false)
 	}, [data?.players])
 
 	useEffect(() => {

@@ -38,16 +38,16 @@ function BaseShareModal ({ children }: ShareModalProps) {
 			<div onClick={handleOpen}>
 				{children}
 			</div>
-			{isOpen && (
-				<Modal open={isOpen}>
-					<Flex gap={1} flexDirection="column">
-						<TextField value={window.location.href} />
-						<Button 
-							onClick={handleCopyClipBoard} 
-							fullWidth>Copy link</Button>
-					</Flex>
-				</Modal>
-			)}
+			<Modal open={isOpen}>
+				<Flex gap={1} flexDirection="column">
+					<TextField value={window.location.href} />
+					<Button 
+						onClick={handleCopyClipBoard} 
+						fullWidth>
+							Copy link
+					</Button>
+				</Flex>
+			</Modal>
 		</>
 	)
 }

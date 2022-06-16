@@ -49,6 +49,7 @@ export const Label = styled(DropdownMenu.Label, {
 	fontSize: '$xs',
 	display: 'inline',
 	lineHeight: '25px',
+	color: '$text'
 })
 
 export const Item = styled(DropdownMenu.Item, {
