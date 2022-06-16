@@ -21,10 +21,12 @@ export const Overlay = styled(AlertDialogPrimitive.Overlay, {
 	'@media (prefers-reduced-motion: no-preference)': {
 		animation: `${overlayShow} 150ms cubic-bezier(0.16, 1, 0.3, 1)`,
 	},
+	zIndex: 9999999999999
 })
 
 
 export const Content = styled(AlertDialogPrimitive.Content, {
+	zIndex: 9999999999999,
 	backgroundColor: '$background',
 	borderRadius: '$sm',
 	boxShadow: 'hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px',
@@ -42,7 +44,12 @@ export const Content = styled(AlertDialogPrimitive.Content, {
 	'&:focus': { outline: 'none' },
 })
 
-export const Root = AlertDialogPrimitive.Root
+export const Root = styled(AlertDialogPrimitive.Root, {
+	zIndex: 999999999999999
+})
 
-export const Portal = AlertDialogPrimitive.Portal
+export const Portal = styled(AlertDialogPrimitive.Portal, {
+	zIndex: 9999999999999
+
+})
 

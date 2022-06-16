@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet,  useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { createContext, useMemo, useContext, useState, useEffect } from 'react'
 
 import type { 
@@ -7,18 +7,17 @@ import type {
 	PlayerSchema
 } from '@/src/types/game'
 
-import { useFirestore, useInterval, useLocalStorage } from '@/src/hooks'
+import { useFirestore, useInterval } from '@/src/hooks'
 
-import { COLLECTION_ROOM, STORAGE_COLLECTION_ROOM } from '@/src/constants/firestore'
+import { COLLECTION_ROOM } from '@/src/constants/firestore'
 import { updatePlayer, updateRoom } from '@/src/services/firebase'
+import { useAuthContext } from '../Auth'
 
 interface Room {
 	data: RoomSchema | null;
 	player: PlayerSchema | null;
 	participants: PlayerSchema[];
 	canReveal: boolean;
-	setStorageRoom: (value: StorageRoom) => void;
-	storageRoom: StorageRoom | null;
 	countDown: number;
 	restart: () => Promise<void>;
 	reveal: () => Promise<void>;
@@ -28,12 +27,12 @@ const RoomContext = createContext({} as Room)
 const baseCountDown = 3
 
 export function RoomProvider () {
-	const [storageRoom, setStorageRoom] = useLocalStorage<StorageRoom | null>(STORAGE_COLLECTION_ROOM, null)
+	const { id: room_id } = useParams()
+	const { user } = useAuthContext()
 
-	const { data } = useFirestore<RoomSchema | null>(`/${COLLECTION_ROOM}/${storageRoom?.room_id}`, 
+	const { data, isLoaded } = useFirestore<RoomSchema | null>(`/${COLLECTION_ROOM}/${room_id}`, 
 		{ 
 			initialState : null,
-			onNotFound: () => setStorageRoom(null)
 		}
 	)
 
@@ -42,14 +41,14 @@ export function RoomProvider () {
 	const player = useMemo(() => {
 		const result = Object
 			.entries(data?.players || {})
-			.find(([key, value]) => value.id === storageRoom?.player_id)
+			.find(([key, value]) => value.id === user?.uid)
 
 		if (!result) return null
 
 		const [_, player] = result
     
 		return player
-	}, [data?.players, storageRoom])
+	}, [data?.players, user?.uid])
   
 	const participants = useMemo(() => {
 		const result = Object
@@ -101,16 +100,22 @@ export function RoomProvider () {
 	useInterval(revealCards, data?.isPlaying ? 1000  : null)
 
 	const canReveal = useMemo(() => {
-		const participantsVote = participants?.map(value => !!value.vote)
+		const players = Object
+			.entries(data?.players || {})
+			.map(([key, entry]) => entry)
+			.filter(value => !value?.isSpectator)
+			.map(value => !!value?.vote)
 
-		return participantsVote.length > 0 && !participantsVote.includes(false) && !!player?.vote
-	}, [participants, player?.vote])
+		return players?.length > 1 && !players?.includes(false)
+	}, [data?.players])
 
 	useEffect(() => {
 		if (data?.isReveal) return
 
 		setCountDown(baseCountDown)
 	}, [data?.isReveal])
+
+	if (!isLoaded) return null
 
 	return (
 		<RoomContext.Provider 
@@ -122,8 +127,6 @@ export function RoomProvider () {
 				reveal: handleRevealCards,
 				restart: handleRestart,
 				canReveal,
-				setStorageRoom,
-				storageRoom,
 			}}>
 			<Outlet />
 		</RoomContext.Provider>

@@ -15,6 +15,7 @@ import { BsFillEyeSlashFill, BsThreeDotsVertical } from '@meronex/icons/bs'
 import { MdPower, IosArrowForward } from '@meronex/icons/ios'
 import { RiAccountCircleFill } from '@meronex/icons/ri'
 import { AiFillHeart } from '@meronex/icons/ai'
+import { BisShareAlt } from '@meronex/icons/bi'
 
 export const icons = {
 	google: FcGoogle,
@@ -28,6 +29,7 @@ export const icons = {
 	arrowBack: MdArrowBack,
 	people: MdPeople,
 	power: MdPower,
+	share: BisShareAlt,
 	settings: MdSettings,
 	accountCircleFill: RiAccountCircleFill,
 	arrowRight: IosArrowForward,

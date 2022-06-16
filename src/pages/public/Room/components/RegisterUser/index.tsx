@@ -7,7 +7,7 @@ import { Modal, Button } from '@/src/components'
 import { FormikTextField } from '@/src/components'
 
 import * as Styles from './styles'
-import { useBoardContext, useRoom } from '@/src/providers'
+import { useAuthContext, useBoardContext, useRoom } from '@/src/providers'
 import { joinRoom } from '@/src/services/socket/gameboard'
 import { createPlayer } from '@/src/services/firebase'
 import { useBooleanToggle } from '@/src/hooks'
@@ -17,6 +17,8 @@ interface Payload {
 }
 
 function BaseRegisterUser () {
+	const { user } = useAuthContext()
+
 	const [isLoading, toggleIsLoading] = useBooleanToggle(false)
 
 	const context = useRoom()
@@ -30,25 +32,21 @@ function BaseRegisterUser () {
 	}
 
 	useEffect(() => {
-		if (context?.storageRoom) return setIsOpen(false)
+		if (context?.player) return setIsOpen(false)
 
 		setIsOpen(true)
-	}, [context?.storageRoom])
+	}, [context?.player])
 
 	const handleSubmit = async (payload: Payload) => {
 		try {
 			toggleIsLoading()
 			if (!params?.id) return
 
-			const player = await createPlayer({
+			await createPlayer({
 				name: payload.username,
 				room_id: params?.id
-			})
+			}, user)
 	
-			context?.setStorageRoom({
-				player_id: player.id,
-				room_id: params?.id
-			})
 		} finally {
 			toggleIsLoading()
 		}

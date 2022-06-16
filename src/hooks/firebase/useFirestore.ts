@@ -13,13 +13,14 @@ const initialState = {}
 
 export function useFirestore <T = typeof initialState>(path: string, options?: Option<T>) {
 	const [data, setData] = useState<T>(options?.initialState || initialState as T)
+	const [isLoaded, setIsLoaded] = useState(false)
 
 	useEffect(() => {
 		const unSubscribe = onSnapshot(doc(firestore, path), doc => {
 			if (!doc.exists()) options?.onNotFound?.()
 			
 			setData((doc.data() || {}) as T)
-			
+			setIsLoaded(true)
 		}, err => {
 			console.log(err)
 			options?.onError?.(err)
@@ -30,5 +31,6 @@ export function useFirestore <T = typeof initialState>(path: string, options?: O
 
 	return {
 		data,
+		isLoaded
 	}
 }

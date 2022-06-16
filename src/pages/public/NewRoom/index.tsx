@@ -14,8 +14,8 @@ import { routePaths } from '@/src/constants/routes'
 
 import { createRoom, createPlayer } from '@/src/services/firebase'
 
-import { useBooleanToggle } from '@/src/hooks'
-import { useRoom } from '@/src/providers'
+import { useBooleanToggle, useInterval, useTimeout } from '@/src/hooks'
+import { useAuthContext, useRoom } from '@/src/providers'
 
 interface CreateRoom {
 	room_name: string;
@@ -28,8 +28,10 @@ const baseDetails: CreateRoom = {
 }
 
 function BaseNewRoom () {
-	const [isLoading, toggleIsLoading] = useBooleanToggle(false)
+	const { user } = useAuthContext()
 	const context = useRoom()
+
+	const [isLoading, toggleIsLoading] = useBooleanToggle(false)
 
 	const navigate = useNavigate()
 
@@ -40,16 +42,11 @@ function BaseNewRoom () {
 				name: payload.room_name
 			})
 
-			const player = await createPlayer({
+			await createPlayer({
 				room_id: room.id,
 				name: payload.username,
 				isAdm: true
-			})
-
-			context.setStorageRoom({
-				player_id: player.id,
-				room_id: room.id
-			})
+			}, user)
 
 			navigate(resolvePath(routePaths.room, { id: room.id }))
 
@@ -57,13 +54,6 @@ function BaseNewRoom () {
 			toggleIsLoading()
 		}
 	}
-
-	useEffect(() => {
-		// if (!context.status || !context.participant?.room_id) return
-
-		// navigate(resolvePath(routePaths.game, { id: context.participant?.room_id }))
-
-	}, [])
 
 	return (
 		<Styles.Main>

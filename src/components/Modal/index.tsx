@@ -3,16 +3,19 @@ import { memo, ReactNode } from 'react'
 import * as Styles from './styles'
 
 interface ModalProps {
-  open?: boolean
+  open?: boolean;
+	onOpenChange?: (state?: boolean) => void;
   children: ReactNode
 }
 
-function BaseModal ({ children, open }: ModalProps) {
+function BaseModal ({ children, open, onOpenChange }: ModalProps) {
+	if (!open) return null
+	
 	return (
-		<Styles.Root open={open}>
+		<Styles.Root  open={open} onOpenChange={onOpenChange}>
 			<Styles.Portal>
 				<Styles.Overlay/>
-				<Styles.Content>{children}</Styles.Content>
+				<Styles.Content onCloseAutoFocus={() => onOpenChange?.(!open)}>{children}</Styles.Content>
 			</Styles.Portal>
 		</Styles.Root>
 	)

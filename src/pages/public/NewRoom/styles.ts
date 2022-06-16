@@ -7,6 +7,7 @@ export const Main = styled('main', {
 	display: 'flex',
 	alignItems: 'center',
 	justifyContent: 'center',
+	padding: '$sm'
 })
 
 export const Form = styled(FormikForm, {

@@ -9,5 +9,6 @@ export const Header = styled('header', {
 
 export const Username = styled('span', {
 	fontSize: '1rem',
-	color: '$text'
+	color: '$text',
+	cursor: 'pointer'
 })
